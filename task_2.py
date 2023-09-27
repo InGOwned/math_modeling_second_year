@@ -20,7 +20,7 @@ class Pyramyd:
 class Builder:
     def __init__(self, n):
         self.bricks = n
-        self.my_pyramyd = Pyramyd(15)
+        self.my_pyramyd = Pyramyd(10)
         self.day_counter = 1
 
     def buy_bricks(self, n):

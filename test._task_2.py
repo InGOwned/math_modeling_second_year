@@ -39,32 +39,31 @@ class Builder:
             if self.my_pyramyd.current_row <= self.my_pyramyd.x:
                 self.my_pyramyd.current_row += n
             else:
-                if self.my_pyramyd.current_row > self.my_pyramyd.max_h 
-                self.my_pyramyd.current_row -= self.my_pyramyd.x
-                self.my_pyramyd.x -= 1
-                self.my_pyramyd.current_h += 1
+                if self.my_pyramyd.current_row - self.my_pyramyd.x > self.my_pyramyd.x - 1:
+                    print("Пирамида разрушена")
+                    return False
+                else:
+                    self.my_pyramyd.current_row -= self.my_pyramyd.x
+                    self.my_pyramyd.x -= 1
+                    self.my_pyramyd.current_h += 1
     
     def work_day(self):
         while self.my_pyramyd.is_done() != 100:
             a = randint(1, 5)
             print()
             print("День", self.day_counter)
-            if self.my_pyramyd.current_h > self.my_pyramyd.max_h:
-                print("Пирамида разрушилась")
-                return False
+            if self.build_pyramyd(a) == False:
+                print("Покупка", 15 - self.bricks, "кирпичей")
+                self.buy_bricks(15 - self.bricks)
+                self.day_counter += 1
+                continue
             else:
-                if self.build_pyramyd(a) == False:
-                    print("Покупка", 15 - self.bricks, "кирпичей")
-                    self.buy_bricks(15 - self.bricks)
-                    self.day_counter += 1
-                    continue
-                else:
-                    print("Положено", a, "кирпичей")
-                    print("Осталось", self.bricks, "кирпичей у строителя")
-                    print("Высота пирамиды:", self.my_pyramyd.get_height(), "кирпичей")
-                    print("Готовность пирамиды:", self.my_pyramyd.is_done(), "%")
-                    self.day_counter += 1
-            
+                self.build_pyramyd(a)
+                print("Положено", a, "кирпичей")
+                print("Осталось", self.bricks, "кирпичей у строителя")
+                print("Высота пирамиды:", self.my_pyramyd.get_height(), "кирпичей")
+                print("Готовность пирамиды:", self.my_pyramyd.is_done(), "%")
+                self.day_counter += 1
         print()
         print("Пирамида готова!")
         print()
