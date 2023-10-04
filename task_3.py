@@ -20,6 +20,7 @@ class Tomato:
             return True
         return False
 
+
 class TomatoBush:
     def __init__(self, n):
         self.tomatoes = []
@@ -65,11 +66,16 @@ class Gardener:
 
 bush1 = TomatoBush(5)
 Maxim = Gardener('Maxim', bush1)
-# Maxim.knowledge_base()
+
+Maxim.knowledge_base()
 
 Maxim.harvest()
+
 Maxim.work()
 Maxim.work()
+
 Maxim.work()
 Maxim.work()
+
+Maxim.harvest()
 Maxim.harvest()
