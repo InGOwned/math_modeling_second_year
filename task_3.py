@@ -1,5 +1,6 @@
 class Tomato:
-    states = {1: "Зелёный",
+    states = {0: "Отсутствует",
+              1: "Зелёный",
               2: "Начал созревать",
               3: "Почти зрелый",
               4: "Зрелый"}
@@ -8,7 +9,9 @@ class Tomato:
         self.state = self.states[state]
 
     def grow(self):
-        if self.state == self.states[1]:
+        if self.state == self.states[0]:
+            self.state = self.states[1]
+        elif self.state == self.states[1]:
             self.state = self.states[2]
         elif self.state == self.states[2]:
             self.state = self.states[3]
@@ -42,7 +45,9 @@ class TomatoBush:
         return False
 
     def give_away_all(self):
-        self.tomatoes = []
+        for tomato in self.tomatoes:
+            tomato.state = tomato.states[0]
+
 
 class Gardener:
     def __init__(self, name, bush):
@@ -54,28 +59,39 @@ class Gardener:
         print('Вы поухаживали за томатами и они стали ближе к созреванию')
 
     def harvest(self):
-        if self.bush.all_are_ripe():
+        c = 0
+        for tomato in self.bush.tomatoes:
+            if tomato.state == tomato.states[0]:
+                c += 1
+
+        if c == len(self.bush.tomatoes):
+            print('Томаты отсутствуют на кусте')
+        elif self.bush.all_are_ripe():
             self.bush.give_away_all()
             print("Весь урожай собран!")
         else:
-            print("Ещё не все томаты созрели")
+            print("Томаты ещё не созрели")
 
     def knowledge_base(self):
         print("Вы можете окучить свой куст с помощью метода grow_all")
-        print('Чтобы собрать урожай используйте метод harvest')
+        print('Чтобы попробовать собрать урожай используйте метод harvest')
+        print()
+
 
 bush1 = TomatoBush(5)
 Maxim = Gardener('Maxim', bush1)
 
 Maxim.knowledge_base()
 
+Maxim.work()
+Maxim.work()
 Maxim.harvest()
-
 Maxim.work()
 Maxim.work()
-
-Maxim.work()
-Maxim.work()
-
 Maxim.harvest()
+Maxim.harvest()
+Maxim.work()
+Maxim.work()
+Maxim.work()
+Maxim.work()
 Maxim.harvest()
