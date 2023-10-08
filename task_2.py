@@ -18,8 +18,7 @@ class Pyramyd:
             self.max_len_current_row = max_h
             for i in range(max_h, 0, -1):
                 self.max_bricks_count += i
-        
-        
+
     def add_bricks(self, n):
         self.bricks_count += n
 
@@ -46,33 +45,31 @@ class Builder:
         if n > self.bricks:
             print("Не хватает", n - self.bricks, "кирпичей. Приобретите ещё")
             return 1
+        elif self.my_pyramyd.current_row < self.my_pyramyd.max_len_current_row:
+            self.my_pyramyd.current_row += n
+            self.bricks -= n
+            self.my_pyramyd.add_bricks(n)
+            print("Положено", n, "кирпичей")
+        elif self.my_pyramyd.bricks_count > self.my_pyramyd.max_bricks_count:
+            return 2
         else:
-            if self.my_pyramyd.current_row < self.my_pyramyd.max_len_current_row:
-                self.my_pyramyd.current_row += n
-                self.bricks -= n
-                self.my_pyramyd.add_bricks(n)
-                print("Положено", n, "кирпичей")
-            else:
-                if self.my_pyramyd.bricks_count > self.my_pyramyd.max_bricks_count:
-                    return 2
-                else:
-                    # print(f"Moving to the next level: current_max_len={self.my_pyramyd.max_len_current_row}, current_row={self.my_pyramyd.current_row}")
-                    
-                    print("Вчера была достигнута максимальная длина ряда")
+            # print(f"Moving to the next level: current_max_len={self.my_pyramyd.max_len_current_row}, current_row={self.my_pyramyd.current_row}")
 
-                    self.my_pyramyd.current_h += 1
+            print("Вчера была достигнута максимальная длина ряда")
 
+            self.my_pyramyd.current_h += 1
 
-                    if self.my_pyramyd.current_row - self.my_pyramyd.max_len_current_row != 0 and self.my_pyramyd.current_h != self.my_pyramyd.max_h:
-                        print(f"Перенос {self.my_pyramyd.current_row - self.my_pyramyd.max_len_current_row} кирпичей на следующий ряд")
-                    print("Начало строительства следующего ряда")    
-                    
-                    self.my_pyramyd.current_row -= self.my_pyramyd.max_len_current_row
-                    self.my_pyramyd.max_len_current_row -= 1
-                    # elif self.my_pyramyd.current_h != self.my_pyramyd.max_h:
-                        
-            
-            # print(f'Bricks_count = {self.my_pyramyd.bricks_count}, max_bricks_count = {self.my_pyramyd.max_bricks_count}')
+            if self.my_pyramyd.current_row - self.my_pyramyd.max_len_current_row != 0 and self.my_pyramyd.current_h != self.my_pyramyd.max_h:
+                print(
+                    f"Перенос {self.my_pyramyd.current_row - self.my_pyramyd.max_len_current_row} кирпичей на следующий ряд")
+            if self.my_pyramyd.current_h != self.my_pyramyd.max_h:
+                print("Начало строительства следующего ряда")
+
+            self.my_pyramyd.current_row -= self.my_pyramyd.max_len_current_row
+            self.my_pyramyd.max_len_current_row -= 1
+            # elif self.my_pyramyd.current_h != self.my_pyramyd.max_h:
+
+        # print(f'Bricks_count = {self.my_pyramyd.bricks_count}, max_bricks_count = {self.my_pyramyd.max_bricks_count}')
 
     def work_day(self):
         while self.my_pyramyd.is_done() != 100:
@@ -93,10 +90,11 @@ class Builder:
                 print("Высота пирамиды:", self.my_pyramyd.get_height(), "кирпичей")
                 print("Готовность пирамиды:", self.my_pyramyd.is_done(), "%")
                 self.day_counter += 1
-                
+
         print()
         print("Пирамида готова!")
         print()
+
 
 a = int(input("Введите начальное кол-во кирпичей у строителя, от 0 до 15: "))
 b = int(input("Введите высоту пирамиды: "))
@@ -109,7 +107,7 @@ while True:
 
 if a < 0 or a > 15:
     print()
-    print("Не более 15 и не менее 0))) Приравниваем количество кирпичей у строителя к 15")
+    print("Кол-во кирпичей у строителя не более 15 и не менее 0))) Приравниваем к 15")
 if b <= 0:
     print()
     print("Высота не может равняться нулю или быть меньше нуля. Приравнивается к десяти")
