@@ -1,0 +1,176 @@
+import time
+
+from random import choice
+
+list_of_pizzas = ["Маргарита", "Пепперони", "Гавайская", "Мексиканская",
+                  "Вегетарианская", "Сырная", "Мясная", "Четыре сезона",
+                  "Ранч", "Дьябло", "Тоскана", "Студенто",
+                  "Салями"]
+
+price_of_pizzas = {"Маргарита": 350, "Пепперони": 480, "Гавайская": 475, "Мексиканская": 500,
+                   "Вегетарианская": 380, "Сырная": 400, "Мясная": 640, "Четыре сезона": 490,
+                   "Ранч": 500, "Дьябло": 550, "Тоскана": 550, "Студенто": 470,
+                   "Салями": 470}
+
+
+class Pizza:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+    def get_price(self):
+        return self.price
+
+    def get_name(self):
+        return self.name
+
+
+class PizzaRestaurant:
+    def __init__(self, name):
+        self.order = []
+        self.name = name
+
+    def get_name(self):
+        return self.name
+
+    def get_order(self):
+        return self.order
+
+    def add_pizza(self, pizza):
+        self.order.append(pizza)
+
+
+class PizzaDeliever:
+    def __init__(self, name):
+        self.name = name
+        self.address_to_go = 'Адрес доставки не задан'
+
+    def set_address_to_go(self, address=str):
+        self.address_to_go = address
+
+    def get_name(self):
+        return self.name
+
+    def get_address_to_go(self):
+        return self.address_to_go
+
+    def delievery(self, restaraunt):
+        pizzas_to_deliever = restaraunt.order
+        if self.address_to_go == 'Адрес доставки не задан':
+            time.sleep(1)
+            print()
+            print(f'У доставщика {self.name} адрес доставки не задан')
+            return False
+        if not pizzas_to_deliever:
+            time.sleep(2)
+            print()
+            print(f"Нечего доставлять из ресторана {restaraunt.get_name()}")
+            return False
+
+        print()
+        print(f'Забирание {len(pizzas_to_deliever)} пицц из ресторана {restaraunt.get_name()} доставщиком'
+              f' {self.name}. Список пицц:')
+        for pizza in pizzas_to_deliever:
+            time.sleep(2)
+            print(f'─ {pizza.get_name()}')
+
+        print(f'Доставка пицц по адресу {self.address_to_go}')
+        time.sleep(2)
+
+        print('Доставка в пути...')
+        time.sleep(2)
+        print('Доставка в пути...')
+        time.sleep(2)
+
+        print('Доставка прибыла!')
+        time.sleep(2)
+
+        total_price = sum([pizza.get_price() for pizza in pizzas_to_deliever])
+
+        print(f"К оплате {total_price} рублей")
+        time.sleep(2)
+
+        payment = int(input("Введите сумму для оплаты: "))
+
+        payment_count = payment
+        while True:
+            if payment_count > total_price:
+                print(f'Успех! Сдача {payment_count - total_price} рублей')
+                time.sleep(2)
+                break
+            if payment_count == total_price:
+                print("Успешная оплата!")
+                print()
+                break
+            if payment_count < total_price:
+                print(f"Не хватает {total_price - payment_count} рублей. Доплатите ещё")
+            payment = int(input("Доплата: "))
+            payment_count += payment
+
+        restaraunt.order = []
+        self.address_to_go = 'Адрес доставки не задан'
+
+
+class Customer:
+    def __init__(self, name, address):
+        self.name = name
+        self.address = address
+
+    def get_name(self):
+        return self.name
+
+    def make_an_order(self, restaraunt, deliever):
+        time.sleep(1)
+        print("Меню ресторана: ", ', '.join(list_of_pizzas))
+        print()
+        pizzas = input("Введите названия пицц, которые хотите заказать: ").split(', ')
+        for i, pizza in enumerate(pizzas):
+            pizzas[i] = pizza.capitalize()
+
+        while not set(pizzas).issubset(list_of_pizzas):
+            print("Пиццы должны быть из меню ресторана")
+            print()
+            pizzas = input("Введите названия пицц, которые хотите заказать: ").split(', ')
+
+        for pizza in pizzas:
+            restaraunt.add_pizza(Pizza(pizza, price_of_pizzas[pizza]))
+        deliever.set_address_to_go(self.address)
+
+        print(f'Оформлен заказ {len(pizzas)} пицц на адрес {self.address}')
+        time.sleep(2)
+
+    # def pay_for_order(self, restaraunt=PizzaRestaurant):
+    #     order = restaraunt.get_order()
+    #     total_price = sum([pizza.get_price() for pizza in order])
+    #
+    #     print(f'Оплата заказа на сумму {total_price} рублей прошла успешно!')
+
+
+restaraunt1 = PizzaRestaurant('ДодоПицца')
+restaraunt2 = PizzaRestaurant('ПапашаБеппе')
+
+list_of_restaraunts = {"ДодоПицца": restaraunt1, 'ПапашаБеппе': restaraunt2}
+
+deliever1 = PizzaDeliever('Иван Петрович')
+deliever2 = PizzaDeliever('Мухаммед Попович')
+deliever3 = PizzaDeliever('Себастьян Никитич')
+
+list_of_delievers = [deliever1, deliever2, deliever3]
+
+customer1 = Customer('Мишаня', 'улица Чкалова, д. 35')
+
+print("Список ресторанов: ", *list_of_restaraunts)
+print()
+choice_of_restaraunt = input('Введите название ресторана, из которого хотите сделать заказ: ')
+
+while choice_of_restaraunt not in list_of_restaraunts:
+    print("Такого ресторана нет в списке")
+    print()
+    choice_of_restaraunt = input('Введите название ресторана, из которого хотите сделать заказ: ')
+
+customer1.make_an_order(list_of_restaraunts[choice_of_restaraunt],
+                        choice(list_of_delievers))
+
+deliever1.delievery(restaraunt1)
+deliever2.delievery(restaraunt1)
+deliever3.delievery(restaraunt1)
