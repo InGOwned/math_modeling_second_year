@@ -1,3 +1,13 @@
+"""
+Есть пицца, пиццерия, покупатель и доставщик. 
+Покупатель делает заказ из определённого ресторана и выбирает пиццы из меню. 
+После этого заказ улетает рандомному доставщику и он его доставляет. 
+При этом выводится список пицц, которые были заказаны. 
+Доставщик некоторое время доставляет заказ, после чего выводится сообщение о том, что заказ успешно доставлен и выводится сумма к оплате. 
+Пользователь оплачивает заказ и получает сдачу(опционально). 
+Успех!
+"""
+
 import time
 
 from random import choice
@@ -146,10 +156,10 @@ class Customer:
     #     print(f'Оплата заказа на сумму {total_price} рублей прошла успешно!')
 
 
-restaraunt1 = PizzaRestaurant('ДодоПицца')
-restaraunt2 = PizzaRestaurant('ПапашаБеппе')
+restaraunt1 = PizzaRestaurant('Додо Пицца')
+restaraunt2 = PizzaRestaurant('Папаша Беппе')
 
-list_of_restaraunts = {"ДодоПицца": restaraunt1, 'ПапашаБеппе': restaraunt2}
+list_of_restaraunts = {"Додо Пицца": restaraunt1, 'Папаша Беппе': restaraunt2}
 
 deliever1 = PizzaDeliever('Иван Петрович')
 deliever2 = PizzaDeliever('Мухаммед Попович')
@@ -159,7 +169,7 @@ list_of_delievers = [deliever1, deliever2, deliever3]
 
 customer1 = Customer('Мишаня', 'улица Чкалова, д. 35')
 
-print("Список ресторанов: ", *list_of_restaraunts)
+print("Список ресторанов: ", ", ".join(list_of_restaraunts))
 print()
 choice_of_restaraunt = input('Введите название ресторана, из которого хотите сделать заказ: ')
 
