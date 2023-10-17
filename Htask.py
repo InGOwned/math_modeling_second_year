@@ -120,12 +120,27 @@ class PizzaDeliever:
         time.sleep(1)
 
         payment = input("Введите сумму для оплаты: ")
-        while payment in ['', ' ']:
-            payment = input("Введите сумму для оплаты: ")
-        while not payment.isdigit():
-            print("Только число!")
-            payment = input("Введите сумму для оплаты: ")
+        while not payment.strip() or not payment.isdigit():
+            if not payment.strip():
+                payment = input("Введите сумму для оплаты: ")
+            else:
+                print("Только число!")
+                payment = input("Введите сумму для оплаты: ")
+
         payment_count = int(payment)
+        max_payment = 10000
+
+        while payment_count > max_payment:
+            print("Превышен максимальный размер оплаты")
+            payment = input("Введите сумму для оплаты: ")
+            while not payment.strip() or not payment.isdigit():
+                if not payment.strip():
+                    payment = input("Введите сумму для оплаты: ")
+                else:
+                    print("Только число!")
+                    payment = input("Введите сумму для оплаты: ")
+            payment_count = int(payment)
+
         while True:
             if payment_count > total_price:
                 print(f'Успех! Сдача {payment_count - total_price} рублей. Приятного аппетита!')
@@ -140,11 +155,12 @@ class PizzaDeliever:
             if payment_count < total_price:
                 print(f"Не хватает ещё {total_price - payment_count} рублей. Доплатите ещё")
             payment = input("Доплата: ")
-            while payment in ['', ' ']:
-                payment = input("Доплата: ")
-            while not payment.isdigit():
-                print("Только число!")
-                payment = input("Доплата: ")
+            while not payment.strip() or not payment.isdigit():
+                if not payment.strip():
+                    payment = input("Доплата: ")
+                else:
+                    print("Только число!")
+                    payment = input("Доплата: ")
             payment_count += int(payment)
 
         restaraunt.order = []
@@ -180,9 +196,12 @@ class Customer:
                     if number in restaraunt.menu:
                         pizza = Pizza(restaraunt.menu[number], price_of_pizzas[restaraunt.menu[number]])
                         restaraunt.add_pizza(pizza)
+                    # elif c.strip():
+                    #     break
                     else:
                         print("Пиццы должны быть из меню ресторана. Попробуйте еще раз.")
                         print()
+                        restaraunt.order = []
                         break
                 else:
                     c = c.capitalize()
@@ -190,9 +209,12 @@ class Customer:
                     if c in restaraunt.menu.values():
                         pizza = Pizza(c, price_of_pizzas[c])
                         restaraunt.add_pizza(pizza)
+                    elif not c.strip():
+                        break
                     else:
                         print("Пиццы должны быть из меню ресторана. Попробуйте еще раз.")
                         print()
+                        restaraunt.order = []
                         break
             if len(choices) == len(restaraunt.order):
                 break
@@ -229,6 +251,17 @@ class Customer:
 
         deliever.delievery(restaraunt)
 
+    def rate_pizza(self):
+        while True:
+            rating = input("Пожалуйста, оцените нашу пиццу по шкале от 1 до 5: ")
+            if rating.isdigit() and int(rating) in range(1, 6):
+                print("Спасибо за вашу оценку! Мы ценим ваше мнение.")
+                print()
+                time.sleep(1)
+                break
+            else:
+                print("Пожалуйста, введите число от 1 до 5.")
+
 
 restaraunt1 = PizzaRestaurant('Додо Пицца', dodo_menu)
 restaraunt2 = PizzaRestaurant('Папаша Беппе', papasha_menu)
@@ -241,8 +274,10 @@ list_of_restaraunts = {"Додо Пицца": restaraunt1,
 deliever1 = PizzaDeliever('Иван Петрович')
 deliever2 = PizzaDeliever('Мухаммед Попович')
 deliever3 = PizzaDeliever('Себастьян Никитич')
+deliever4 = PizzaDeliever('Валентин Дядька')
+deliever5 = PizzaDeliever('Константин Олегович')
 
-list_of_delievers = [deliever1, deliever2, deliever3]
+list_of_delievers = [deliever1, deliever2, deliever3, deliever4, deliever5]
 
 # customer1 = Customer('Мишаня', 'улица Чкалова, д. 35')
 # customer2 = Customer('Алёша', 'улица Рубинштейна, д. 44')
@@ -254,7 +289,17 @@ while True:
           "оформить заказ на доставку и оплатить его.")
 
     name = input('Представьтесь: ')
+    while not name.strip() or name.isdigit():
+        if name.isdigit():
+            print("Требуется ваше имя")
+        name = input("Представьтесь: ")
+
     address = input('Введите свой адрес: ')
+    while not address.strip() or address.isdigit():
+        if address.isdigit():
+            print("Адрес не может содеражать только числа")
+        address = input('Введите свой адрес: ')
+
     customer = Customer(name, address)
     print()
     print("Супер!")
@@ -270,6 +315,7 @@ while True:
 
     customer.make_an_order(list_of_restaraunts[choice_of_restaraunt],
                            random.choice(list_of_delievers))
+    customer.rate_pizza()
 
 # deliever1.delievery(restaraunt1)
 # deliever2.delievery(restaraunt1)
