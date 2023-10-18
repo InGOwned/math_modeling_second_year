@@ -56,8 +56,7 @@ class PizzaRestaurant:
         return self.order
 
     def show_menu(self):
-        print()
-        print(f"Добро пожаловать в ресторан {self.name}!")
+        print(f"\nДобро пожаловать в ресторан {self.name}!")
         print("Вот наше меню:", end=' ')
         for number, pizza in self.menu.items():
             print(f"{number}. {pizza}", end=' ')
