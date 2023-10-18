@@ -73,7 +73,7 @@ class PizzaDeliever:
         self.name = name
         self.address_to_go = 'Адрес доставки не задан'
 
-    def set_address_to_go(self, address=str):
+    def set_address_to_go(self, address):
         self.address_to_go = address
 
     def get_name(self):
@@ -240,13 +240,11 @@ class Customer:
 
         print(f'Оформлен заказ {len(choices)} пицц на адрес {self.address}, на имя {self.name}')
         time.sleep(2)
-        # for _ in range(3):
-        #     print('.', end='')
-        #     time.sleep(1.2)
         print(f'\nВам назначен доставщик {deliever.get_name()}')
         time.sleep(2)
 
         deliever.delievery(restaraunt)
+        
         self.rate_pizza()
 
     def rate_pizza(self):
