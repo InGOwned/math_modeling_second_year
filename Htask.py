@@ -6,6 +6,7 @@
 Доставщик некоторое время доставляет заказ, после чего выводится сообщение о том,
 что заказ успешно доставлен и выводится сумма к оплате.
 Пользователь оплачивает заказ и получает сдачу(опционально).
+После этого пользователь оценивает полученный заказ.
 Успех!
 """
 
@@ -199,8 +200,7 @@ class Customer:
                     # elif c.strip():
                     #     break
                     else:
-                        print("Пиццы должны быть из меню ресторана. Попробуйте еще раз.")
-                        print()
+                        print("Пиццы должны быть из меню ресторана. Попробуйте еще раз.\n")
                         restaraunt.order = []
                         break
                 else:
@@ -212,8 +212,7 @@ class Customer:
                     elif not c.strip():
                         break
                     else:
-                        print("Пиццы должны быть из меню ресторана. Попробуйте еще раз.")
-                        print()
+                        print("Пиццы должны быть из меню ресторана. Попробуйте еще раз.\n")
                         restaraunt.order = []
                         break
             if len(choices) == len(restaraunt.order):
@@ -228,28 +227,27 @@ class Customer:
             summ_of_prices += pizza.get_price()
 
         time.sleep(1)
-        print(f'Отлично! Сумма заказа равна {summ_of_prices}. Оплата при получении. Согласны ли вы оформить заказ?')
+        print(f'Отлично! Сумма заказа равна {summ_of_prices}р. Оплата при получении. Согласны ли вы оформить заказ?')
         a = input().capitalize()
         while a not in ["Нет", "Да"]:
             print('Только "Да" или "Нет"')
             a = input().capitalize()
 
         if a == 'Нет':
-            print()
-            print('Хорошо, отменяем')
-            print()
+            print('\nХорошо, отменяем\n')
             restaraunt.order = []
             return False
 
         print(f'Оформлен заказ {len(choices)} пицц на адрес {self.address}, на имя {self.name}')
-        time.sleep(1)
-        for _ in range(4):
-            print('.', end='')
-            time.sleep(1.5)
+        time.sleep(2)
+        # for _ in range(3):
+        #     print('.', end='')
+        #     time.sleep(1.2)
         print(f'\nВам назначен доставщик {deliever.get_name()}')
         time.sleep(2)
 
         deliever.delievery(restaraunt)
+        self.rate_pizza()
 
     def rate_pizza(self):
         while True:
@@ -259,6 +257,8 @@ class Customer:
                 print()
                 time.sleep(1)
                 break
+            elif not rating.strip():
+                continue
             else:
                 print("Пожалуйста, введите число от 1 до 5.")
 
@@ -301,9 +301,7 @@ while True:
         address = input('Введите свой адрес: ')
 
     customer = Customer(name, address)
-    print()
-    print("Супер!")
-    print()
+    print("\nСупер!\n")
     print("Список ресторанов, из которых можно сделать заказ:", ", ".join(list_of_restaraunts))
     print()
 
@@ -315,7 +313,9 @@ while True:
 
     customer.make_an_order(list_of_restaraunts[choice_of_restaraunt],
                            random.choice(list_of_delievers))
-    customer.rate_pizza()
+    
+    
+
 
 # deliever1.delievery(restaraunt1)
 # deliever2.delievery(restaraunt1)
