@@ -9,4 +9,4 @@ def add_numbers(number):
 def my_function(x):
     return x
 
-print(my_function(15))
+print(my_function(-5))
