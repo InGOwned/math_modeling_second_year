@@ -33,30 +33,30 @@ price_of_pizzas = {"Маргарита": 350, "Пепперони": 480, "Гав
 
 class Pizza:
     def __init__(self, name, price):
-        self.name = name
-        self.price = price
+        self.__name = name
+        self.__price = price
 
     def get_price(self):
-        return self.price
+        return self.__price
 
     def get_name(self):
-        return self.name
+        return self.__name
 
 
 class PizzaRestaurant:
     def __init__(self, name, menu):
         self.order = []
-        self.name = name
+        self.__name = name
         self.menu = {i + 1: pizza for i, pizza in enumerate(menu)}
 
     def get_name(self):
-        return self.name
+        return self.__name
 
     def get_order(self):
         return self.order
 
     def show_menu(self):
-        print(f"\nДобро пожаловать в ресторан {self.name}!")
+        print(f"\nДобро пожаловать в ресторан {self.__name}!")
         print("Вот наше меню:", end=' ')
         for number, pizza in self.menu.items():
             print(f"{number}. {pizza}", end=' ')
@@ -69,24 +69,26 @@ class PizzaRestaurant:
 
 class PizzaDeliever:
     def __init__(self, name):
-        self.name = name
-        self.address_to_go = 'Адрес доставки не задан'
+        self.__name = name
+        self.__address_to_go = 'Адрес доставки не задан'
 
     def set_address_to_go(self, address):
-        self.address_to_go = address
+        self.__address_to_go = address
 
     def get_name(self):
-        return self.name
+        return self.__name
 
     def get_address_to_go(self):
-        return self.address_to_go
+        return self.__address_to_go
 
     def delievery(self, restaraunt):
-        pizzas_to_deliever = restaraunt.order
-        if self.address_to_go == 'Адрес доставки не задан':
+        print(f'Вам назначен доставщик {self.get_name()}')
+        time.sleep(2)
+        pizzas_to_deliever = restaraunt.get_order()
+        if self.__address_to_go == 'Адрес доставки не задан':
             time.sleep(1)
             print()
-            print(f'У доставщика {self.name} адрес доставки не задан')
+            print(f'У доставщика {self.__name} адрес доставки не задан')
             return False
         if not pizzas_to_deliever:
             time.sleep(2)
@@ -96,14 +98,14 @@ class PizzaDeliever:
 
         print()
         print(f'Забирание {len(pizzas_to_deliever)} пицц из ресторана {restaraunt.get_name()} доставщиком'
-              f' {self.name}. Список пицц:')
+              f' {self.__name}. Список пицц:')
         for pizza in pizzas_to_deliever:
             time.sleep(1)
             print(f'─ {pizza.get_name()}')
             time.sleep(1)
 
         time.sleep(1)
-        print(f'Доставка пицц по адресу {self.address_to_go}')
+        print(f'Доставка пицц по адресу {self.__address_to_go}')
         time.sleep(2)
 
         print('Доставка в пути...')
@@ -164,19 +166,29 @@ class PizzaDeliever:
             payment_count += int(payment)
 
         restaraunt.order = []
-        self.address_to_go = 'Адрес доставки не задан'
+        self.__address_to_go = 'Адрес доставки не задан'
 
+
+class YandexPizzaDeliever(PizzaDeliever):
+    def delievery(self, restaraunt):
+        print("Вы выбрали сервис доставки Яндекс.Еда")
+        super().delievery(restaraunt)
+
+class DelieveryClubPizzaDeliever(PizzaDeliever):
+    def delievery(self, restaraunt):
+        print("Вы выбрали сервис доставки Delievery Club")
+        super().delievery(restaraunt)
 
 class Customer:
     def __init__(self, name, address):
-        self.name = name
-        self.address = address
+        self.__name = name
+        self.__address = address
 
     def get_name(self):
-        return self.name
+        return self.__name
 
     def get_addres(self):
-        return self.address
+        return self.__address
 
     def make_an_order(self, restaraunt, deliever):
         time.sleep(1)
@@ -219,7 +231,7 @@ class Customer:
             # print(f'Отладка: choices: {choices}')
             choice = input("Введите номера или названия пицц через запятую: ")
 
-        deliever.set_address_to_go(self.address)
+        deliever.set_address_to_go(self.__address)
 
         summ_of_prices = 0
         for pizza in restaraunt.get_order():
@@ -237,10 +249,10 @@ class Customer:
             restaraunt.order = []
             return False
 
-        print(f'Оформлен заказ {len(choices)} пицц на адрес {self.address}, на имя {self.name}')
+        print(f'Оформлен заказ {len(choices)} пицц на адрес {self.__address}, на имя {self.__name}\n')
         time.sleep(2)
-        print(f'\nВам назначен доставщик {deliever.get_name()}')
-        time.sleep(2)
+        # print(f'\nВам назначен доставщик {deliever.get_name()}')
+        # time.sleep(2)
 
         deliever.delievery(restaraunt)
         
@@ -268,13 +280,14 @@ list_of_restaraunts = {"Додо Пицца": restaraunt1,
                        'Папаша Беппе': restaraunt2,
                        'Тобаско': restaraunt3}
 
-deliever1 = PizzaDeliever('Иван Петрович')
-deliever2 = PizzaDeliever('Мухаммед Попович')
-deliever3 = PizzaDeliever('Себастьян Никитич')
-deliever4 = PizzaDeliever('Валентин Дядька')
-deliever5 = PizzaDeliever('Константин Олегович')
+deliever1 = YandexPizzaDeliever('Иван Петрович')
+deliever2 = YandexPizzaDeliever('Мухаммед Попович')
+deliever3 = YandexPizzaDeliever('Себастьян Никитич')
+deliever4 = DelieveryClubPizzaDeliever('Валентин Дядька')
+deliever5 = DelieveryClubPizzaDeliever('Константин Олегович')
 
-list_of_delievers = [deliever1, deliever2, deliever3, deliever4, deliever5]
+list_of_Ya_delievers = [deliever1, deliever2, deliever3]
+list_of_DClub_delievers = [deliever4, deliever5]
 
 # customer1 = Customer('Мишаня', 'улица Чкалова, д. 35')
 # customer2 = Customer('Алёша', 'улица Рубинштейна, д. 44')
@@ -304,12 +317,27 @@ while True:
 
     choice_of_restaraunt = input('Введите название ресторана, из которого хотите сделать заказ: ')
     while choice_of_restaraunt not in list_of_restaraunts:
-        print("Такого ресторана нет в списке")
-        print()
+        print("Такого ресторана нет в списке\n")
         choice_of_restaraunt = input('Введите название ресторана, из которого хотите сделать заказ: ')
+    time.sleep(1.5)
 
-    customer.make_an_order(list_of_restaraunts[choice_of_restaraunt],
-                           random.choice(list_of_delievers))
+    print("\nВыберите сервис доставки:")
+    print("1. Яндекс.Еда")
+    print("2. Delievery Club")
+    time.sleep(1)
+    
+    choice_of_delievery = input("\nВведите номер сервиса доставки: ")
+    while choice_of_delievery not in ['1', '2']:
+        print("Неверный ввод. Пожалуйста, введите цифру 1 или 2.")
+        choice_of_delievery = input("Введите номер сервиса доставки: ")
+
+    if choice_of_delievery == '1':
+        delievery_service = random.choice(list_of_Ya_delievers)
+    else:
+        delievery_service = random.choice(list_of_DClub_delievers)
+
+    delievery_service.set_address_to_go(address)
+    customer.make_an_order(list_of_restaraunts[choice_of_restaraunt], delievery_service)
     
     
 
