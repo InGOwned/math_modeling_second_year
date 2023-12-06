@@ -61,7 +61,7 @@ class CulturalCity(City):
         print(f"{self.name} провёл мероприятие мирового уровня")
 
 
-class Game:
+class Rand:
     def __init__(self):
         self.__cities = []
 
