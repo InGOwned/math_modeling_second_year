@@ -71,32 +71,32 @@ class Vector:
 
 v1 = Vector(1, 2, 3)
 v2 = Vector(4, 5, 6)
-print(v1)
-print(len(v1))
+# print(v1)
+# print(len(v1))
 
-v3 = v1 + v2
-print(v3)
+# v3 = v1 + v2
+# print(v3)
 
-v4 = v1 - v2
-print(v4)
+# v4 = v1 - v2
+# print(v4)
 
-v5 = v1 * 2
-print(v5)
+# v5 = v1 * 2
+# print(v5)
 
-v6 = v1 * v2
-print(v6)
+# v6 = v1 * v2
+# print(v6)
 
-print(v1 == v2)
-print(v1 != v2)
+# print(v1 == v2)
+# print(v1 != v2)
 
-v7 = v1 ** 2
-print(v7)
+# v7 = v1 ** 2
+# print(v7)
 
-v1 += v2
-print(v1)
+# v1 += v2
+# print(v1)
 
-v2 -= v1
-print(v2)
+# v2 -= v1
+# print(v2)
 
-v3 *= 2
-print(v3)
+# v3 *= 2
+# print(v3)

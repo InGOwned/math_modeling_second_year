@@ -47,5 +47,8 @@ solar_system = 'Earth' - solar_system
 print(solar_system.planets)
 
 # __isub__
-solar_system -= 'Venus'
+new_system = ['Mercury', 'Venus', 'Earth']
+for planet in new_system:
+    solar_system -= planet
+
 print(solar_system.planets)
