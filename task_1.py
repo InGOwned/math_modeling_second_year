@@ -26,3 +26,4 @@ def calculate_area(shape:str, *args):
 
 print(calculate_area("треугольник", 7, 8, 14))
 print(calculate_area("прямоугольник", 7, 8))
+print(calculate_area("круг", 2))
