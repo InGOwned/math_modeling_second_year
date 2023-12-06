@@ -56,14 +56,13 @@ class SmallHouse(House):
     def __init__(self, price):
         super().__init__(area=40, price=price, condition='маленький дом')
 
-Human.default_info()
+# Human.default_info()
 
 human = Human('Валера', 27)
-human.info()
+# human.info()
 
 house = SmallHouse(4000000)
 human.buy_house(house)
-
 human.earn_money(3000000)
 human.buy_house(house)
 
