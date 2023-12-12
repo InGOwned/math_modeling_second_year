@@ -174,10 +174,12 @@ class YandexPizzaDeliever(PizzaDeliever):
         print("Вы выбрали сервис доставки Яндекс.Еда")
         super().delievery(restaraunt)
 
+
 class DelieveryClubPizzaDeliever(PizzaDeliever):
     def delievery(self, restaraunt):
         print("Вы выбрали сервис доставки Delievery Club")
         super().delievery(restaraunt)
+
 
 class Customer:
     def __init__(self, name, address):
@@ -199,24 +201,18 @@ class Customer:
 
         while True:
             choices = choice.split(", ")
-            # print(f'Отладка: choices: {choices}')
             for c in choices:
-                # print(f'{c} попало в цикл for')
                 if c.isdigit():
-                    # print(f"Число: {c}")
                     number = int(c)
                     if number in restaraunt.menu:
                         pizza = Pizza(restaraunt.menu[number], price_of_pizzas[restaraunt.menu[number]])
                         restaraunt.add_pizza(pizza)
-                    # elif c.strip():
-                    #     break
                     else:
                         print("Пиццы должны быть из меню ресторана. Попробуйте еще раз.\n")
                         restaraunt.order = []
                         break
                 else:
                     c = c.capitalize()
-                    # print(f"Строка: {c}")
                     if c in restaraunt.menu.values():
                         pizza = Pizza(c, price_of_pizzas[c])
                         restaraunt.add_pizza(pizza)
@@ -228,7 +224,6 @@ class Customer:
                         break
             if len(choices) == len(restaraunt.order):
                 break
-            # print(f'Отладка: choices: {choices}')
             choice = input("Введите номера или названия пицц через запятую: ")
 
         deliever.set_address_to_go(self.__address)
@@ -251,14 +246,13 @@ class Customer:
 
         print(f'Оформлен заказ {len(choices)} пицц на адрес {self.__address}, на имя {self.__name}\n')
         time.sleep(2)
-        # print(f'\nВам назначен доставщик {deliever.get_name()}')
-        # time.sleep(2)
 
         deliever.delievery(restaraunt)
-        
+
         self.rate_pizza()
 
-    def rate_pizza(self):
+    @staticmethod
+    def rate_pizza():
         while True:
             rating = input("Пожалуйста, оцените нашу пиццу по шкале от 1 до 5: ")
             if rating.isdigit() and int(rating) in range(1, 6):
@@ -325,7 +319,7 @@ while True:
     print("1. Яндекс.Еда")
     print("2. Delievery Club")
     time.sleep(1)
-    
+
     choice_of_delievery = input("\nВведите номер сервиса доставки: ")
     while choice_of_delievery not in ['1', '2']:
         print("Неверный ввод. Пожалуйста, введите цифру 1 или 2.")
@@ -338,10 +332,3 @@ while True:
 
     delievery_service.set_address_to_go(address)
     customer.make_an_order(list_of_restaraunts[choice_of_restaraunt], delievery_service)
-    
-    
-
-
-# deliever1.delievery(restaraunt1)
-# deliever2.delievery(restaraunt1)
-# deliever3.delievery(restaraunt1)
